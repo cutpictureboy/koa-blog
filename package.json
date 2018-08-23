@@ -1,0 +1,37 @@
+{
+  "name": "cutpictureboy-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js",
+    "server": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "joi": "^13.6.0",
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.2",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.1",
+    "redis": "^2.8.0",
+    "sequelize": "^4.38.0"
+  },
+  "devDependencies": {
+    "@types/joi": "^13.4.2",
+    "@types/koa": "^2.0.46",
+    "@types/koa-router": "^7.0.31",
+    "@types/koa-session": "^5.7.4",
+    "@types/redis": "^2.8.6",
+    "@types/sequelize": "^4.27.24",
+    "eslint": "^5.4.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "nodemon": "^1.18.3"
+  }
+}
