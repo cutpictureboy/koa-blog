@@ -1,3 +1,5 @@
+process.rootDir = process.cwd()
+
 const Koa = require('koa')
 const session = require('koa-session')
 const loader = require('./middleware/loader')

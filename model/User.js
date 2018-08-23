@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const defineModel = require('../core/db')
+const defineModel = require(`${process.rootDir}/core/db`)
 
 const { STRING } = Sequelize
 const userModel = defineModel('user', {

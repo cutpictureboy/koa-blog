@@ -6,7 +6,7 @@ const fs = require('fs')
  */
 function autoLoader (path, loaderName) {
   const list = {}
-  const localPath = `${process.cwd()}/${path}`
+  const localPath = `${process.rootDir}/${path}`
   const fileNames = fs.readdirSync(localPath)
   const fileNameList = fileNames.map(fileName => {
     return fileName.replace('.js', '')

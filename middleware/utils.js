@@ -1,6 +1,6 @@
 
 const crypto = require('crypto')
-const { hmacKay } = require('../config/key.config')
+const { hmacKay } = require(`${process.rootDir}/config/key.config`)
 
 class Utils {
   /**
