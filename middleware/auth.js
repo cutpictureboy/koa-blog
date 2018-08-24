@@ -1,7 +1,8 @@
 // 不需要检查session的白名单
 const whiteList = [
   '/user/login',
-  '/user/register'
+  '/user/register',
+  '/user/retrieve'
 ]
 /**
  * 检查用户session

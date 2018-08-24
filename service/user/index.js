@@ -1,5 +1,6 @@
-const userModel = require(`${process.rootDir}/model/User`)
+const userModel = require(`../../model/User`)
 const schema = require('./schema')
+const mail = require('../../core/mail')
 
 class UserService {
   /**
@@ -78,7 +79,7 @@ class UserService {
    * 查询用户信息
    */
   async query (ctx) {
-    const [username] = ctx.session.id.split('_')
+    const [ username ] = ctx.session.id.split('_')
     const result = await this.getUserInfoByUsername(username)
     ctx.success({
       result: {
@@ -87,6 +88,44 @@ class UserService {
         username: result.username
       }
     })
+  }
+
+  async retrieve (ctx) {
+    await this.clearUserSession(ctx)
+    let options = {
+      from: '"cutpicture" <cutpicture@163.com>',
+      to: 'huangcheng3@yy.com', // list of receivers
+      subject: 'Hello ✔', // Subject line
+      text: 'Hello world?', // plain text body
+      html: '<b>Hello world?</b>' // html body
+    }
+    mail.postMail(options)
+  }
+
+  /**
+   * 修改密码
+   * @param {Koa.Context} ctx
+   */
+  async password (ctx) {
+    const [ username ] = ctx.session.id.split('_')
+    const result = await this.getUserInfoByUsername(username)
+    let { oldPassword, newPassword } = ctx.query
+
+    oldPassword = ctx.utils.createHamc(oldPassword)
+
+    // 旧密码输入不正确时返回
+    if (oldPassword !== result.password) {
+      ctx.error({
+        message: '旧密码不正确'
+      })
+      return
+    }
+    // 旧密码输入正确时，数据库更新密码，并清除session和redis
+    await this.clearUserSession(ctx)
+    await userModel.updateUserInfo({
+      password: newPassword
+    })
+    ctx.success()
   }
 
   /**
@@ -118,6 +157,17 @@ class UserService {
     const key = username + '_' + new Date().valueOf() + '_' + keyword
     ctx.session.id = key
     await ctx.redis.set(username, key)
+  }
+
+  /**
+   * 设置用户session，并将值保存到redis中
+   */
+  async clearUserSession (ctx) {
+    if (ctx.session.id) {
+      const [ username ] = ctx.session.id.split('_')
+      ctx.session.destroy('id')
+      ctx.redis.del(username)
+    }
   }
 }
 

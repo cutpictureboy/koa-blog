@@ -13,6 +13,16 @@ class UserController {
     await ctx.service.userService.query(ctx)
     await next()
   }
+
+  async retrieve (ctx, next) {
+    await ctx.service.userService.retrieve(ctx)
+    await next()
+  }
+
+  async password (ctx, next) {
+    await ctx.service.userService.password(ctx)
+    await next()
+  }
 }
 
 module.exports = new UserController()

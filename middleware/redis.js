@@ -1,5 +1,5 @@
 const redis = require('redis')
-const config = require(`${process.rootDir}/config/key.config`)
+const config = require('../config/key.config')
 
 const client = redis.createClient()
 client.on('error', error => {
@@ -11,8 +11,8 @@ client.on('error', error => {
  * @param {string} name
  * @param {string} value
  */
-function set (name, value) {
-  return client.hset(config.redis, name, value, redis.print)
+async function set (name, value) {
+  await client.hset(config.redis, name, value)
 }
 
 /**
@@ -20,21 +20,25 @@ function set (name, value) {
  * @param {string} name
  * @param {string} value
  */
-function get (name, value) {
-  return new Promise((resolve, reject) => {
-    client.hget(config.redis, name, (err, value) => {
-      if (err) {
-        reject(err)
-      }
-      resolve(value)
-    })
-  })
+async function get (name, value) {
+  let data = await client.hget(config.redis, name)
+  return data
+}
+
+/**
+ * 在redis中获取key value
+ * @param {string} name
+ * @param {string} value
+ */
+async function del (name, value) {
+  await client.hdel(config.redis, name)
 }
 
 module.exports = async (ctx, next) => {
   ctx.redis = {
     get,
-    set
+    set,
+    del
   }
   await next()
 }

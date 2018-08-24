@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const defineModel = require(`${process.rootDir}/core/db`)
+const defineModel = require('../core/db')
 
 const { STRING } = Sequelize
 const userModel = defineModel('user', {
@@ -16,6 +16,8 @@ const userModel = defineModel('user', {
     type: STRING,
     allowNull: false
   }
+}, {
+  initialAutoIncrement: 1000000
 })
 userModel.sync(false)
 

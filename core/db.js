@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const dbConfig = require(`${process.rootDir}/config/db.config`)
+const dbConfig = require('../config/db.config')
 
 const {
   database,
